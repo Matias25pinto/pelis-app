@@ -1,0 +1,55 @@
+<div class="container m-5">
+    <div class="row">
+        <div class="input-group mb-3">
+           <input class="form-control"
+                  type="text"
+                  name="buscarTexto"
+                  [(ngModel)]="buscarTexto"
+                  (keyup.enter)="buscarPelicula()"
+                  placeholder="Buscar una Pelicula">
+            <div class="input-group-append">
+              <button (click)="buscarPelicula()" class="btn btn-outline-primary my-2 my-sm-0" type="button">Buscar</button>
+            </div>
+        </div>    
+    </div>
+
+    <div *ngIf="loading" class="alert alert-primary text-center" role="alert">
+      
+      <i class="fas fa-spinner fa-pulse fa-3x"></i>
+      <br>
+      <h5>Buscando...</h5>
+    </div>
+
+    <div *ngIf="nopeliculas" class="alert alert-danger text-center animated fadeIn" role="alert">
+      
+      <i class="far fa-frown fa-4x"></i>
+      <br>
+      <h5>No se encontro resultados</h5>
+    </div>
+    
+
+    <div class="row row-cols-4 row-cols-md-3">
+        <div *ngFor="let pelicula of peliculas" class="col mb-4 animated fadeIn">
+          <div class="card h-500"
+              [routerLink]="['/pelicula',pelicula.id, 'search', buscarTexto]">
+            <img src="{{pelicula.poster_path | noimagen}}" class="card-img-top" alt="{{pelicula.title}}">
+            <div class="card-body">
+              <h5 class="card-title text-center">{{pelicula.title}}</h5>
+              <p class="card-text">
+                <span class="badge badge-primary">{{pelicula.release_date|date:'dd / MM / yyyy'}}</span>
+                <span class="badge badge-info">{{pelicula.vote_average}}</span>
+                <span class="badge badge-warning">idioma original: {{pelicula.original_language}}</span>
+                <span *ngIf="pelicula.adult" class="badge badge-danger">+18</span>
+              </p>
+              <p class="card-text">
+                {{pelicula.overview | slice:0:200}}
+               <a class="badge badge-success" [routerLink]="['/pelicula',pelicula.id, 'search', buscarTexto]">leer más...</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>     
+</div>
+
+
+
