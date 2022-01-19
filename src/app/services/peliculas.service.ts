@@ -12,8 +12,8 @@ export class PeliculasService {
   constructor(private http: HttpClient) {}
 
   getActual() {
-    let desde = new Date();
-    let hasta = new Date();
+    let desde = new Date(2022,0,1);
+    let hasta = new Date(2022,11,31);
 
     hasta.setDate(desde.getDate() + 7); //se suma 7 dias a hasta desde la fecha desde, asi se obtiene los 7 dias
 
@@ -25,13 +25,13 @@ export class PeliculasService {
     }-${hasta.getDate()}`;
     console.log(desdeStr);
     console.log(hastaStr);
-    let url = `${this.urlMoviedb}/discover/movie?primary_release_date.gte=${desdeStr}&primary_release_date.lte=${hastaStr}&popular&api_key=${this.apikey}&language=es-US&page=1`;
+    let url = `${this.urlMoviedb}/discover/movie?primary_release_date.gte=${desdeStr}&primary_release_date.lte=${hastaStr}&api_key=${this.apikey}&language=es-US&page=1`;
 
     return this.http.get(url);
   }
 
   getPopulares() {
-    let url = `${this.urlMoviedb}/movie/popular?api_key=${this.apikey}&language=es-US&page=1`;
+    let url = `${this.urlMoviedb}/discover/movie?api_key=${this.apikey}&sort_by=popularity.desc&language=es-US&page=1`;
 
     return this.http.get(url);
   }
@@ -42,7 +42,7 @@ export class PeliculasService {
   }
 
   getPopularesKids() {
-    let url = `${this.urlMoviedb}/discover/movie/?api_key=${this.apikey}&certification_country=US&certification=R&sort_by=vote_average.desc`;
+    let url = `${this.urlMoviedb}/discover/movie/?api_key=${this.apikey}&certification.lte=G&language=es-US&page=1`;
 
     return this.http.get(url);
   }
